@@ -1,3 +1,5 @@
 #custom proxy rule
 
 DOMAIN-SUFFIX,bg3.co
+DOMAIN-SUFFIX,taskrabbit.com
+
