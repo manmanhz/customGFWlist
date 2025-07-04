@@ -101,15 +101,14 @@ proxy-groups:
  - name: "🚀 节点选择"
    type: select
    proxies:
+    - ♻️ 自动选择
     - 🇭🇰 香港节点
     - 🇹🇼 台湾节点
     - 🇺🇲 美国节点
     - 🇯🇵 日本节点
     - 🇸🇬 新加坡节点
-    - ✈️ 手动切换
-    - ♻️ 自动选择
     - 🎯 全球直连
-   use:
+  use:
     - renzhe
        
  - name: "🆎 AdBlock"
@@ -131,8 +130,12 @@ proxy-groups:
    url: 'http://www.gstatic.com/generate_204'
    interval: 300
    tolerance: 50
-   use:
-     - renzhe
+   proxies:
+     - 🇭🇰 香港节点
+     - 🇹🇼 台湾节点
+     - 🇺🇲 美国节点
+     - 🇯🇵 日本节点
+     - 🇸🇬 新加坡节点
  
  - name: ✈️ 手动切换
    type: select
@@ -141,27 +144,19 @@ proxy-groups:
  - name: 📹 Youtube油管
    type: select
    proxies:
-     - 🚀 节点选择
      - 🇭🇰 香港节点
      - 🇹🇼 台湾节点
      - 🇺🇲 美国节点
      - 🇯🇵 日本节点
      - 🇸🇬 新加坡节点
-     - ✈️ 手动切换
-     - ♻️ 自动选择
-     - 🎯 全球直连
  - name: 🎥 Netflix奈飞
    type: select
    proxies:
-     - 🚀 节点选择
-     - 🇸🇬 新加坡节点
      - 🇭🇰 香港节点
      - 🇹🇼 台湾节点
      - 🇺🇲 美国节点
      - 🇯🇵 日本节点
-     - ✈️ 手动切换
-     - ♻️ 自动选择
-     - 🎯 全球直连
+     - 🇸🇬 新加坡节点
  - name: 📺 巴哈姆特
    type: select
    proxies:
@@ -183,15 +178,11 @@ proxy-groups:
  - name: 🌍 国外媒体
    type: select
    proxies:
-     - 🚀 节点选择
      - 🇭🇰 香港节点
      - 🇹🇼 台湾节点
      - 🇺🇲 美国节点
      - 🇯🇵 日本节点
      - 🇸🇬 新加坡节点
-     - ✈️ 手动切换
-     - ♻️ 自动选择
-     - 🎯 全球直连
  - name: 🌏 国内媒体
    type: select
    proxies:
@@ -206,9 +197,6 @@ proxy-groups:
      - 🇺🇲 美国节点
      - 🇯🇵 日本节点
      - 🇸🇬 新加坡节点
-     - ✈️ 手动切换
-     - ♻️ 自动选择
-     - 🎯 全球直连
  - name: 📱 Twitter推特
    type: select
    proxies:
@@ -217,9 +205,6 @@ proxy-groups:
      - 🇺🇲 美国节点
      - 🇯🇵 日本节点
      - 🇸🇬 新加坡节点
-     - ✈️ 手动切换
-     - ♻️ 自动选择
-     - 🎯 全球直连
  - name: 🎶 网易云音乐
    type: select
    proxies:
@@ -251,12 +236,11 @@ proxy-groups:
  - name: 📢 谷歌FCM
    type: select
    proxies:
-     - 🎯 全球直连
-     - 🚀 节点选择
      - 🇭🇰 香港节点
+     - 🇹🇼 台湾节点
      - 🇺🇲 美国节点
-     - ✈️ 手动切换
-     - 🎯 全球直连
+     - 🇯🇵 日本节点
+     - 🇸🇬 新加坡节点
  - name: 🤖 OpenAI
    type: select
    proxies:
