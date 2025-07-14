@@ -1,6 +1,15 @@
 #custom proxy rule
 
-DOMAIN-SUFFIX,bg3.co
-DOMAIN-SUFFIX,taskrabbit.com
-DOMAIN-SUFFIX,coze.com
-
+payload:
+ - DOMAIN-SUFFIX,bg3.co
+ - DOMAIN-SUFFIX,taskrabbit.com
+ - DOMAIN-SUFFIX,coze.com
+ - DOMAIN-SUFFIX,akamaized.net
+ - DOMAIN-SUFFIX,mvnrepository.com
+ - DOMAIN-SUFFIX,singlelogin.re
+ - DOMAIN-SUFFIX,arduino.cc
+ - DOMAIN-SUFFIX,claude.ai
+ - DOMAIN-SUFFIX,anthropic.com
+ - DOMAIN-SUFFIX,mapbox.com
+ - DOMAIN-SUFFIX,tikhub.io
+ - DOMAIN-SUFFIX,feedbooks.com
