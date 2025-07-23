@@ -454,6 +454,13 @@ rule-providers:
     url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Claude/Claude.yaml
     interval: 86400
 
+  Anthropic:
+    type: http
+    behavior: classical
+    path: ./rule_provider/Anthropic
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Anthropic/Anthropic.yaml
+    interval: 86400
+
 
 # 规则
 rules:
@@ -491,6 +498,7 @@ rules:
   - RULE-SET,ChinaMax,🕳 全球直连
   - RULE-SET,OpenAI,🤖 OpenAI
   - RULE-SET,Claude,🤖 OpenAI
+  - RULE-SET,Anthropic,🤖 OpenAI
   - RULE-SET,PROXY,🚀 节点选择
 #  - GEOIP,CN,DIRECT
   # - GEOSITE,CN,DIRECT #Meta内核专属
