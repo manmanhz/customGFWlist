@@ -8,8 +8,6 @@ payload:
  - DOMAIN-SUFFIX,mvnrepository.com
  - DOMAIN-SUFFIX,singlelogin.re
  - DOMAIN-SUFFIX,arduino.cc
- - DOMAIN-SUFFIX,claude.ai
- - DOMAIN-SUFFIX,anthropic.com
  - DOMAIN-SUFFIX,mapbox.com
  - DOMAIN-SUFFIX,tikhub.io
  - DOMAIN-SUFFIX,feedbooks.com
