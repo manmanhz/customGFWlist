@@ -174,15 +174,17 @@ proxy-groups:
    type: select
    proxies:
      - 🇭🇰 香港节点
-     - 🇺🇲 美国节点
+     - 🇹🇼 台湾节点
+     - 🇯🇵 日本节点
+     - 🇸🇬 新加坡节点
  - name: 🌍 国外媒体
    type: select
    proxies:
-     - 🇭🇰 香港节点
-     - 🇹🇼 台湾节点
      - 🇺🇲 美国节点
      - 🇯🇵 日本节点
      - 🇸🇬 新加坡节点
+     - 🇭🇰 香港节点
+     - 🇹🇼 台湾节点
  - name: 🌏 国内媒体
    type: select
    proxies:
@@ -244,11 +246,11 @@ proxy-groups:
  - name: 🤖 OpenAI
    type: select
    proxies:
-     - 🇭🇰 香港节点
-     - 🇹🇼 台湾节点
      - 🇺🇲 美国节点
      - 🇯🇵 日本节点
      - 🇸🇬 新加坡节点
+     - 🇭🇰 香港节点
+     - 🇹🇼 台湾节点
  - name: 🌐 访问官网
    type: select
    proxies:
