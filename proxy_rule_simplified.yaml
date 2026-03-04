@@ -1,0 +1,234 @@
+# 简化版代理规则 (双源优化版)
+# 源1 (renzhe): 包月大流量 -> 默认主力 (优先港台)
+# 源2 (source2): 按量付费 (优质/AI) -> AI专用 (优先美国/新加坡)
+# ---------------------------------------------------
+
+# 机场订阅
+proxy-providers:
+  renzhe: # 源1: 包月
+    type: file
+    path: ./profiles/Ri1Kf4PIbQjq.yaml
+    interval: 86400
+    health-check:
+      enable: true
+      interval: 600
+      lazy: true
+
+  source2: # 源2: 按量付费 (请修改此处的 path 为实际文件名)
+    type: file
+    path: ./profiles/source2.yaml 
+    interval: 86400
+    health-check:
+      enable: true
+      interval: 600
+      lazy: true
+
+# 代理组
+proxy-groups:
+  # === 源2 专用组 (AI/按量) ===
+  - name: "🇺🇸 S2-美国-AI" # 优选源2美国节点
+    type: url-test
+    use: [source2]
+    filter: '(美国|US|States)'
+    url: 'http://www.youtube.com/generate_204'
+    interval: 300
+
+  - name: "🇸🇬 S2-新加坡-AI" # 优选源2新加坡节点
+    type: url-test
+    use: [source2]
+    filter: '(新加坡|SG|Singapore)'
+    url: 'http://www.youtube.com/generate_204'
+    interval: 300
+
+  # === 源1 基础组 (主力/包月) ===
+  - name: "🇭🇰 香港节点"
+    type: url-test
+    use: [renzhe]
+    filter: '(香港|HK|Hong Kong)'
+    url: 'http://www.youtube.com/generate_204'
+    interval: 300
+
+  - name: "🇹🇼 台湾节点"
+    type: url-test
+    use: [renzhe]
+    filter: '(台湾|TW|Taiwan)'
+    url: 'http://www.youtube.com/generate_204'
+    interval: 300
+
+  - name: "🇺🇲 美国节点" # 源1的美国 (非AI用途, 如下载)
+    type: url-test
+    use: [renzhe]
+    filter: '(美国|US|States)'
+    url: 'http://www.youtube.com/generate_204'
+    interval: 300
+
+  - name: "🇯🇵 日本节点"
+    type: url-test
+    use: [renzhe]
+    filter: '(日本|JP|Japan)'
+    url: 'http://www.youtube.com/generate_204'
+    interval: 300
+
+  - name: "🇸🇬 新加坡节点"
+    type: url-test
+    use: [renzhe]
+    filter: '(新加坡|SG|Singapore)'
+    url: 'http://www.youtube.com/generate_204'
+    interval: 300
+
+  # === 核心策略组 ===
+  
+  # AI服务: 默认源2美国 -> 可选源2新加坡 -> 兜底源1港台
+  - name: "🤖 AI服务" 
+    type: select
+    proxies:
+      - 🇺🇸 S2-美国-AI
+      - 🇸🇬 S2-新加坡-AI
+      - ⚡️ 港台优先
+
+  # 港台优先: 默认源1港台 (省流/速度平衡)
+  - name: "⚡️ 港台优先"
+    type: url-test
+    use: [renzhe]
+    filter: '(香港|台湾|HK|TW)'
+    url: 'http://www.gstatic.com/generate_204'
+    interval: 300
+    tolerance: 50
+
+  # 国际媒体: 优先港台 (源1) -> 可选其他
+  - name: "📹 国际媒体" 
+    type: select
+    proxies:
+      - ⚡️ 港台优先
+      - 🇭🇰 香港节点
+      - 🇹🇼 台湾节点
+      - 🇸🇬 新加坡节点
+      - 🇺🇲 美国节点
+      - 🇯🇵 日本节点
+
+  - name: "🛑 广告拦截"
+    type: select
+    proxies:
+      - REJECT
+      - DIRECT
+
+  # 漏网之鱼: 默认源1港台 -> 可选源1其他 -> 兜底源2
+  - name: "🐟 漏网之鱼" 
+    type: select
+    proxies:
+      - ⚡️ 港台优先
+      - 🇺🇲 美国节点
+      - 🇯🇵 日本节点
+      - 🇸🇬 新加坡节点
+      - 🇺🇸 S2-美国-AI # 紧急情况下可用源2
+      - DIRECT
+
+# 规则源
+rule-providers:
+  AAA-daili:
+    type: http
+    behavior: classical
+    path: ./rule_provider/proxy.list
+    url: https://cdn.jsdelivr.net/gh/manmanhz/customGFWlist@master/proxy.list
+    interval: 86400
+
+  LocalAreaNetwork:
+    type: http
+    behavior: classical
+    path: ./rule_provider/LocalAreaNetwork
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Lan/Lan.yaml
+    interval: 86400
+
+  UnBan:
+    type: http
+    behavior: classical
+    path: ./rule_provider/UnBan
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Direct/Direct.yaml
+    interval: 86400
+
+  Advertising:
+    type: http
+    behavior: classical
+    path: ./rule_provider/Advertising
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Advertising/Advertising_Classical.yaml
+    interval: 86400
+
+  # 媒体类
+  youtube:
+    type: http
+    behavior: classical
+    path: ./rule_provider/youtube
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/YouTube/YouTube.yaml
+    interval: 86400
+    
+  GlobalMedia:
+    type: http
+    behavior: classical
+    path: ./rule_provider/GlobalMedia
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml
+    interval: 86400
+
+  # AI类
+  OpenAI:
+    type: http
+    behavior: classical
+    path: ./rule_provider/OpenAI
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
+    interval: 86400
+
+  Claude:
+    type: http
+    behavior: classical
+    path: ./rule_provider/Claude
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Claude/Claude.yaml
+    interval: 86400
+
+  Anthropic:
+    type: http
+    behavior: classical
+    path: ./rule_provider/Anthropic
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Anthropic/Anthropic.yaml
+    interval: 86400
+
+  # 国内直连
+  ChinaMax:
+    type: http
+    behavior: classical
+    path: ./rule_provider/ChinaMax
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml
+    interval: 86400
+
+# 规则
+rules:
+  # === 自定义 AI 规则 (Cursor, Gemini, Trae) ===
+  - DOMAIN-SUFFIX,gemini.google.com,🤖 AI服务
+  - DOMAIN-SUFFIX,bard.google.com,🤖 AI服务
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com,🤖 AI服务
+  - DOMAIN-SUFFIX,proactivbackend-pa.googleapis.com,🤖 AI服务
+  - DOMAIN-SUFFIX,cursor.sh,🤖 AI服务
+  - DOMAIN-SUFFIX,cursor.com,🤖 AI服务
+  - DOMAIN-SUFFIX,todesktop.com,🤖 AI服务
+  - DOMAIN-SUFFIX,trae.ai,🤖 AI服务
+  - DOMAIN-SUFFIX,ciciai.com,🤖 AI服务
+
+  # === 基础规则 ===
+  - RULE-SET,LocalAreaNetwork,DIRECT
+  - RULE-SET,UnBan,DIRECT
+  - RULE-SET,Advertising,🛑 广告拦截
+  
+  # === AI 服务 (Provider) ===
+  - RULE-SET,OpenAI,🤖 AI服务
+  - RULE-SET,Claude,🤖 AI服务
+  - RULE-SET,Anthropic,🤖 AI服务
+
+  # === 媒体 ===
+  - RULE-SET,youtube,📹 国际媒体
+  - RULE-SET,GlobalMedia,📹 国际媒体
+
+  # === 代理与直连 ===
+  - RULE-SET,AAA-daili,⚡️ 港台优先
+  - RULE-SET,ChinaMax,DIRECT
+
+  # === 兜底 ===
+  - GEOIP,CN,DIRECT
+  - MATCH,🐟 漏网之鱼
