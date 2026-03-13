@@ -1,0 +1,23 @@
+server:
+  host: "0.0.0.0"
+  port: 8000
+  token: "change-me-to-your-secret-token"
+
+# 规则模板文件名 (放在 rules/ 目录下)
+template: "test1_public.yaml"
+
+# 机场列表 (通过 OpenClaw 自动管理，不需要手动配置)
+# 添加机场后会自动生成以下格式:
+# providers:
+#   - name: "provider-1"
+#     url: "https://xxx/sub"
+#     enabled: true
+#     node_mapping:
+#       US: ["美国", "US", "美帝"]
+#       JP: ["日本", "JP"]
+#       HK: ["香港", "HK"]
+#       TW: ["台湾", "TW"]
+#       SG: ["新加坡", "SG"]
+#     _node_count: 50
+#     _last_update: "2024-01-01T00:00:00"
+providers: []

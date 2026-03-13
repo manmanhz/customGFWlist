@@ -1,0 +1,149 @@
+# 动态聚合版策略
+# 所有 provider 自动注入；地区组按所有订阅的 node_mapping 聚合生成。
+
+proxy-providers:
+${PROXY_PROVIDERS}
+
+proxy-groups:
+  - name: 🚀 节点选择
+    type: select
+    proxies:
+${NODE_SELECT_PROXIES}
+
+  - name: 🤖 AI服务
+    type: select
+    proxies:
+${AI_SELECT_PROXIES}
+
+  - name: 📹 媒体&开发
+    type: select
+    proxies:
+${MEDIA_SELECT_PROXIES}
+
+  - name: 🇬 谷歌服务
+    type: select
+    proxies:
+      - 🤖 AI服务
+      - 📹 媒体&开发
+      - 🚀 节点选择
+      - DIRECT
+
+  - name: 🐟 漏网之鱼
+    type: select
+    proxies:
+      - 🚀 节点选择
+      - DIRECT
+
+  - name: 🛑 广告拦截
+    type: select
+    proxies:
+      - REJECT
+      - DIRECT
+
+${REGION_GROUPS}
+
+rule-providers:
+  Gemini:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/SkywalkerJi/Clash-Rules/master/AI/Gemini.yaml
+    interval: 86400
+  Cursor:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/SkywalkerJi/Clash-Rules/master/AI/Cursor.yaml
+    interval: 86400
+  OpenAI:
+    type: http
+    behavior: classical
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
+    interval: 86400
+  Claude:
+    type: http
+    behavior: classical
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Claude/Claude.yaml
+    interval: 86400
+  Copilot:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/SkywalkerJi/Clash-Rules/master/AI/Copilot.yaml
+    interval: 86400
+  GitHub:
+    type: http
+    behavior: classical
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Github/Github.yaml
+    interval: 86400
+  Docker:
+    type: http
+    behavior: classical
+    url: https://raw.githubusercontent.com/manmanhz/ios_rule_script/master/rule/Clash/Docker/Docker.yaml
+    interval: 86400
+  YouTube:
+    type: http
+    behavior: classical
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/YouTube/YouTube.yaml
+    interval: 86400
+  GlobalMedia:
+    type: http
+    behavior: classical
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/GlobalMedia/GlobalMedia_Classical.yaml
+    interval: 86400
+  Google:
+    type: http
+    behavior: classical
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Google/Google.yaml
+    interval: 86400
+  ChinaMax:
+    type: http
+    behavior: classical
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/ChinaMax/ChinaMax_Classical.yaml
+    interval: 86400
+  Advertising:
+    type: http
+    behavior: classical
+    url: https://cdn.jsdelivr.net/gh/manmanhz/ios_rule_script@master/rule/Clash/Advertising/Advertising_Classical.yaml
+    interval: 86400
+
+rules:
+  - RULE-SET,Advertising,🛑 广告拦截
+
+  - DOMAIN-SUFFIX,notebooklm.google.com,🤖 AI服务
+  - DOMAIN-SUFFIX,notebooklm.google,🤖 AI服务
+  - DOMAIN-SUFFIX,aistudio.google.com,🤖 AI服务
+  - DOMAIN-SUFFIX,labs.google,🤖 AI服务
+  - DOMAIN-SUFFIX,labs.google.com,🤖 AI服务
+  - DOMAIN-SUFFIX,imagefx.google.com,🤖 AI服务
+  - DOMAIN-SUFFIX,meta.ai,🤖 AI服务
+  - DOMAIN-SUFFIX,x.ai,🤖 AI服务
+  - DOMAIN-SUFFIX,grok.com,🤖 AI服务
+  - DOMAIN-SUFFIX,perplexity.ai,🤖 AI服务
+  - RULE-SET,Gemini,🤖 AI服务
+  - RULE-SET,Copilot,🤖 AI服务
+  - RULE-SET,Cursor,🤖 AI服务
+  - RULE-SET,OpenAI,🤖 AI服务
+  - RULE-SET,Claude,🤖 AI服务
+  - DOMAIN-SUFFIX,claude.ai,🤖 AI服务
+  - DOMAIN-SUFFIX,support.claude.com,🤖 AI服务
+  - DOMAIN-SUFFIX,anthropic.com,🤖 AI服务
+  - DOMAIN-SUFFIX,trae.ai,🤖 AI服务
+  - DOMAIN-SUFFIX,ciciai.com,🤖 AI服务
+  - DOMAIN,accounts.google.com,🤖 AI服务
+  - DOMAIN,apis.google.com,🤖 AI服务
+  - DOMAIN-SUFFIX,googleapis.com,🇬 谷歌服务
+
+  - RULE-SET,GitHub,📹 媒体&开发
+  - RULE-SET,Docker,📹 媒体&开发
+  - DOMAIN-SUFFIX,brew.sh,📹 媒体&开发
+  - RULE-SET,YouTube,📹 媒体&开发
+  - RULE-SET,GlobalMedia,📹 媒体&开发
+  - RULE-SET,Google,🇬 谷歌服务
+
+  - DOMAIN-SUFFIX,800best.com,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - RULE-SET,ChinaMax,DIRECT
+  - GEOIP,CN,DIRECT
+
+  - MATCH,🐟 漏网之鱼
